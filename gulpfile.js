@@ -7,34 +7,72 @@ const minifyhtml = require('gulp-minify-html');
 const eslint = require('gulp-eslint');
 const htmlreplace = require('gulp-html-replace');
 const inline = require('gulp-inline');
+const sourcemaps = require('gulp-sourcemaps');
+const browserSync = require('browser-sync');
+const babelify = require('babelify');
+const browserify = require('browserify')
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
 
-gulp.task('default', ['js','html']);
+gulp.task('default', ['es6','css','html','watch']);
+
+gulp.task('watch', function() {
+  browserSync({
+    server: {
+      baseDir: './'
+    }
+  });
+	gulp.watch('./src/js/*.js', ['es6-watch']);
+  gulp.watch('./src/css/*.css', ['css']);
+	gulp.watch('./src/*.html', ['html-watch']);
+});
+
+gulp.task('es6-watch',['es6'],browserSync.reload);
+gulp.task('html-watch',['html'],browserSync.reload);
 
 // CSS minification task
 gulp.task('css', function() {
   return gulp.src(['src/css/*.css'])
     .pipe(concatcss('style.min.css'))
     .pipe(minifycss())
-    .pipe(gulp.dest('css'));
+    .pipe(gulp.dest('css'))
+    .pipe(browserSync.stream());
 });
 // JS minification task
 gulp.task('js', function() {
   return gulp.src(['src/js/*.js'])
+    .pipe(sourcemaps.init())
     .pipe(uglify())
     .pipe(concat('bundle.min.js'))
+    .pipe(sourcemaps.write('maps'))
     .pipe(gulp.dest('js'));
+});
+
+gulp.task('es6', () => {
+	browserify('src/js/app.js')
+		.transform('babelify', {
+			presets: ['es2015']
+		})
+		.bundle().on('error', function(err){
+      // print the error (can replace with gulp-util)
+      console.log(err.message);
+      // end this stream
+      this.emit('end');
+    })
+		.pipe(source('bundle.min.js'))
+		.pipe(buffer())
+    .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
+    .pipe(uglify())
+    .pipe(sourcemaps.write('./')) // writes .map file
+		.pipe(gulp.dest('js'));
 });
 
 // minify HTML task
 gulp.task('html', function () {
   return gulp.src('src/*.html')
-    .pipe(inline({
-      base: 'src/',
-      css: minifycss,
-      disabledTypes: ['svg', 'img', 'js'] // Only inline css files
-    }))
     .pipe(htmlreplace({
-        'js': 'js/bundle.min.js'
+        'js': 'js/bundle.min.js',
+        'css': 'css/style.min.css'
     }))
     .pipe(minifyhtml())
     .pipe(gulp.dest(''));

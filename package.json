@@ -1,7 +1,7 @@
 {
-  "name": "speed-reader",
+  "name": "chat-es6",
   "version": "0.0.1",
-  "description": "Speed Reader",
+  "description": "Chat app",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,11 +10,15 @@
   "author": "Louis Bourque",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/louisbourque/speed-reader.git"
+    "url": ""
   },
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
+    "babel-preset-es2015": "^6.16.0",
+    "babelify": "^7.3.0",
+    "browser-sync": "^2.17.3",
+    "browserify": "^13.1.0",
     "gulp": "^3.9.1",
     "gulp-clean-css": "^2.0.12",
     "gulp-concat": "^2.6.0",
@@ -24,6 +28,9 @@
     "gulp-imagemin": "^3.0.3",
     "gulp-inline": "^0.1.1",
     "gulp-minify-html": "^1.0.6",
-    "gulp-uglify": "^2.0.0"
+    "gulp-sourcemaps": "^2.1.1",
+    "gulp-uglify": "^2.0.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
   }
 }
