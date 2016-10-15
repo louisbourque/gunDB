@@ -1,5 +1,0 @@
-{
-  "files": ["./src/**/*.{html,htm,css,js}"],
-  "server": { "baseDir": "./" },
-  "injectChanges": true
-}
