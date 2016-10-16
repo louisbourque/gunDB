@@ -49,7 +49,7 @@ gulp.task('js', function() {
 });
 
 gulp.task('es6', () => {
-	browserify('src/js/app.js')
+	return browserify('src/js/app.js')
 		.transform('babelify', {
 			presets: ['es2015']
 		})
