@@ -4,7 +4,7 @@ import Gun from 'gun/gun';
 //const gun = Gun(['http://localhost:8080/gun','https://gundb-louis.herokuapp.com/gun']);
 const gun = Gun(['https://gundb-louis.herokuapp.com/gun']);
 
-const textInput = document.getElementById('myInput');
+const hexColor = document.getElementById('hexColor');
 
 var ref = gun.get('text').not(function (key) {
   // put in an object and key it
@@ -13,10 +13,10 @@ var ref = gun.get('text').not(function (key) {
   }).key(key)
 });
 ref.on(function(data){
-  textInput.value = data.text;
+  hexColor.value = data.text;
   document.body.style.backgroundColor = data.text;
 });
 
-window.updateMyInput = () => {
-  ref.path('text').put(textInput.value);
+window.updateHexColor = () => {
+  ref.path('text').put(hexColor.value);
 }
