@@ -1,7 +1,8 @@
 import Gun from 'gun/gun';
 
+//const gun = Gun(['http://localhost:8080/gun']);
+//const gun = Gun(['http://localhost:8080/gun','https://gundb-louis.herokuapp.com/gun']);
 const gun = Gun(['https://gundb-louis.herokuapp.com/gun']);
-
 
 const textInput = document.getElementById('myInput');
 
